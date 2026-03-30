@@ -1,77 +1,52 @@
-# <p align=center>`Lightweight Remote Sensing Change Detection with Progressive Aggregation and Supervised Attention (IEEE TGRS 2023)`</p>
+# Multi-Modal Building Change Detection for Large-Scale Small Changes: Benchmark and Baseline
 
-> **Authors:**
-Zhenglai Li, Chang Tang, Xinwang Liu, Wei Zhang, Jie Dou, Lizhe Wang, Albert Zomaya
+This is the official implementation of the paper:<br/>
+> **Multi-Modal Building Change Detection for Large-Scale Small Changes: Benchmark and Baseline**
+>
+> *Ye Wang†, Wei Lu†, Zhihui You, Keyan Chen, Tongfei Liu, Kaiyu Li, Hongruixuan Chen, Qingling Shu and Sibao Chen** 
 
-This repository contains a simple Python implementation of our paper [A2Net](https://ieeexplore.ieee.org/abstract/document/10034814).
+----
 
-:fire: We extend A2Net for the  [semantic change detection](https://github.com/guanyuezhen/A2Net-SCD) task.<br>
-:fire: We provided the [pre-computed change maps](https://github.com/guanyuezhen/A2Net/releases/tag/v1.0) of FC-diff, FC-ef, FC-cat, STANet, L-Unet, SNUNet, DSIFN, BIT, TFI-GR, A2Net on LEVIR, BCDD, and SYSU datasets.<br>
+<p align="center"> 
+<img src="./LSMD-main/fig1.png" width=100% 
+class="center">
+<p align="center">  Illustration of data distribution and challenging scenarios in realistic change detection. (a) Comparison of the average change ratio per image between the proposed LSMD and other mainstream benchmarks. (b) Comparison of image proportions across different change ratios (1%--10%) between the proposed LSMD and existing benchmarks. (c) Visual examples of small-scale changes in large-scale scenes. (d) Visual examples of small buildings under vegetation backgrounds.
+</p> 
 
-### 1. Overview
+----
 
-<p align="center">
-    <img width=500 src="assest/A2Net.jpg"/> <br />
-</p>
+<details>
+  <summary>
+  <font size="+1">Abstract</font>
+  </summary>
+Change detection in optical remote sensing imagery is susceptible to illumination fluctuations, seasonal changes, and variations in surface land-cover materials. Relying solely on RGB imagery often produces pseudo-changes and leads to semantic ambiguity in features. Incorporating near-infrared (NIR) information provides heterogeneous physical cues that are complementary to visible light, thereby enhancing the discriminability of building materials and tiny structures while improving detection accuracy. However, existing multi-modal datasets generally lack high-resolution and accurately registered bi-temporal imagery, and current methods often fail to fully exploit the inherent heterogeneity between these modalities. To address these issues, we introduce the Large-scale Small-change Multi-modal Dataset (LSMD), a bi-temporal RGB–NIR building change detection benchmark dataset targeting small changes in realistic scenarios, providing a rigorous testing platform for evaluating multi-modal change detection methods in complex environments. Based on LSMD, we further propose the Multi-modal Spectral Complementarity Network (MSCNet) to achieve effective cross-modal feature fusion. MSCNet comprises three key components: the Neighborhood Context Enhancement Module (NCEM) to strengthen local spatial details, the Cross-modal Alignment and Interaction Module (CAIM) to enable deep interaction between RGB and NIR features, and the Saliency-aware Multisource Refinement Module (SMRM) to progressively refine fused features. Extensive experiments demonstrate that MSCNet effectively leverages multi-modal information and consistently outperforms existing methods under multiple input configurations, validating its efficacy for fine-grained building change detection.
+</details>
 
-A framework of the proposed A2Net. The temporal features are extracted from a registered pair of images by weight-shared MobileNetV2. Then, we use NAM to merge the temporal features within neighbor stages of the backbone to enhance their feature representation capability. PCIM is designed to capture the temporal change information from bi-temporal features at their corresponding feature levels. We stack SAM on each fusion of low-level and high-level features to polish the details of changed objects. Finally, a change map is obtained by gradually aggregating temporal difference features. <br>
 
-### 2. Usage
-+ Prepare the data:
-    - Download datasets [LEVIR](https://justchenhao.github.io/LEVIR/), [BCDD](https://study.rsgis.whu.edu.cn/pages/download/building_dataset.html), and [SYSU](https://github.com/liumency/SYSU-CD)
-    - Crop LEVIR and BCDD datasets into 256x256 patches. The pre-processed BCDD dataset can be obtained from [BCDD_256x256](https://drive.google.com/file/d/1VrdQ-rxoGVM_8ecA-ObO0u-O8rSTpSHA/view?usp=sharing).
-    - Generate list file as `ls -R ./label/* > test.txt`
-    - Prepare datasets into the following structure and set their path in `train.py` and `test.py`
-    ```
-    ├─Train
-        ├─A        ...jpg/png
-        ├─B        ...jpg/png
-        ├─label    ...jpg/png
-        └─list     ...txt
-    ├─Val
-        ├─A
-        ├─B
-        ├─label
-        └─list
-    ├─Test
-        ├─A
-        ├─B
-        ├─label
-        └─list
-    ```
-
+## Installation
 + Prerequisites for Python:
-    - Creating a virtual environment in the terminal: `conda create -n A2Net python=3.8`
-    - Installing necessary packages: `pip install -r requirements.txt `
+  - Creating a virtual environment in the terminal: `conda create -n LSMD python=3.8`
+  - Activate the environment: `conda activate LSMD`
+  - Installing necessary packages: `pip install -r requirements.txt`
 
 + Train/Test
-    - `sh ./tools/train.sh`
-    - `sh ./tools/test.sh`
+  - `python -m tools.train`
+  - `python -m tools.test`
 
-### 3. Change Detection Results
-<p align="center">
-    <img src="assest/benchmark_results.png"/> <br />
-    <em> 
-    Quantitative comparisons in terms of $\kappa$, IoU, F1, OA, Rec, and Pre on three remote sensing change detection datasets. The best and second best results are highlighted in <font color="#FF0000">red</font> and <font color="#00B0F0">blue</font>, respectively.
-    </em>
-</p>
 
-### 4. Acknowledgment
-This repository is built with the help of the projects [BIT_CD](https://github.com/justchenhao/BIT_CD), 
-[CDLab](https://github.com/Bobholamovic/CDLab), and [MobileSal](https://github.com/yuhuan-wu/MobileSal) for academic use only.
+## Introduction
 
-### 5. Citation
+The code will be available.
 
-Please cite our paper if you find the work useful:
+The dataset can be downloaded at [Baidu netdisk](https://pan.baidu.com/s/1t-kjJZVoxxX6zSg5SWu57Q?pwd=jddu)(Password: jddu) or [Google Drive](https://drive.google.com/file/d/1fT5fI-OQGl62Qz2eADtftifs6je1YR82/view?usp=sharing).
 
-    @article{Li_2023_A2Net,
-         author={Li, Zhenglai and Tang, Chang and Liu, Xinwang and Zhang, Wei and Dou, Jie and Wang, Lizhe and Zomaya, Albert Y.},
-        journal={IEEE Transactions on Geoscience and Remote Sensing}, 
-        title={Lightweight Remote Sensing Change Detection With Progressive Feature Aggregation and Supervised Attention}, 
-        year={2023},
-        volume={61},
-        number={},
-        pages={1-12},
-        doi={10.1109/TGRS.2023.3241436}
-        }
+If you have any questions about this work, you can contact me. 
+
+Email: [luwei_ahu@qq.com](mailto:luwei_ahu@qq.com); WeChat: luwei_ahu.
+
+Your star is the power that keeps us updating github.
+
+## License
+Licensed under a [Creative Commons Attribution-NonCommercial 4.0 International](https://creativecommons.org/licenses/by-nc/4.0/) for Non-commercial use only.
+Any commercial use should get formal permission first.
 
